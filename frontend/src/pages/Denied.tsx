@@ -1,0 +1,3 @@
+import { ShieldX } from 'lucide-react'
+import { Link } from 'react-router-dom'
+export default function Denied() { return <div className="grid min-h-screen place-items-center bg-[#f7f9fc] p-6 dark:bg-[#08111f]"><div className="max-w-md text-center"><div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-red-50 text-red-500 dark:bg-red-500/10"><ShieldX size={30} /></div><h1 className="mt-6 text-3xl font-bold">Access denied</h1><p className="mt-3 text-slate-500">You do not have permission to view this workspace.</p><Link to="/" className="mt-7 inline-flex rounded-xl bg-cyan-500 px-5 py-3 text-sm font-bold text-slate-950">Return to dashboard</Link></div></div> }

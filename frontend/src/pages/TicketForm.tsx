@@ -1,0 +1,12 @@
+import { ArrowLeft } from 'lucide-react'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { api, getErrorMessage } from '../api'
+import { Button, Card, ErrorMessage, Field, SelectField } from '../components/UI'
+import type { TicketPriority } from '../types'
+
+export default function TicketForm() {
+  const navigate = useNavigate(); const [form, setForm] = useState({ title: '', description: '', priority: 'MEDIUM' as TicketPriority }); const [error, setError] = useState(''); const [loading, setLoading] = useState(false)
+  async function submit(e: React.FormEvent) { e.preventDefault(); setLoading(true); setError(''); try { const { data } = await api.post('/tickets', form); navigate(`/tickets/${data.id}`) } catch (err) { setError(getErrorMessage(err)) } finally { setLoading(false) } }
+  return <div className="mx-auto max-w-3xl animate-rise space-y-7"><Link to="/tickets" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-cyan-600"><ArrowLeft size={16} />Back to tickets</Link><div><h1 className="text-3xl font-bold tracking-tight">Create a ticket</h1><p className="mt-2 text-slate-500">Give your support team the context they need to help.</p></div><Card><form onSubmit={submit} className="space-y-5"><ErrorMessage message={error} /><Field label="Subject" required value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="What do you need help with?" /><label className="block space-y-2"><span className="text-sm font-medium text-slate-600 dark:text-slate-300">Description</span><textarea required rows={7} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Describe the issue, impact and any relevant context..." className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10 dark:border-slate-700 dark:bg-slate-900/60" /></label><SelectField label="Priority" value={form.priority} onChange={e => setForm({ ...form, priority: e.target.value as TicketPriority })}>{(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'] as TicketPriority[]).map(p => <option key={p}>{p}</option>)}</SelectField><div className="flex justify-end gap-3 pt-3"><Link to="/tickets" className="rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">Cancel</Link><Button type="submit" loading={loading}>Submit ticket</Button></div></form></Card></div>
+}
