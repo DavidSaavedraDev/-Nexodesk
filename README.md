@@ -188,7 +188,10 @@ $env:DB_USERNAME="nexodesk_user"
 $env:DB_PASSWORD="your_local_database_password"
 $env:JWT_SECRET="a-local-secret-with-at-least-32-characters"
 $env:JWT_EXPIRATION_MINUTES="60"
+$env:FRONTEND_URL="http://localhost:5173"
 ```
+
+Las variables deben definirse en la misma ventana de PowerShell desde la que se ejecuta `mvn spring-boot:run`. `JWT_SECRET` es obligatorio y debe tener al menos 32 caracteres; la aplicación no usa un valor predeterminado inseguro.
 
 Desde `backend/`:
 
